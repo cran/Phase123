@@ -47,6 +47,12 @@ double MaxVec(arma::vec Y){
 
 }
 
+
+double logINT(int z){
+  double z1=z;
+  return(log(z1));
+}
+
 double min1(double a, double b){
   double z=0;
   if(a>=b){
@@ -2909,9 +2915,9 @@ List PieceMCMC( arma::vec Y, //Survival Times
       alpha =    Like2(Y,I,YE,YT,  Doses, beta, sprop, lamprop , L+1) -    Like2(Y,I,YE,YT, Doses, beta, s, lam , L);
       //Add proposal ratio
       //Poisson
-      alpha= alpha + log(Poi) - log(L+1);
+      alpha= alpha + logINT(Poi) - logINT(L+1);
       // S proposal
-      alpha = alpha + log(2*L+3)+log(2*L+2)+log(Birth-s[Spot-1])+log(s[Spot]-Birth);
+      alpha = alpha + logINT(2*L+3)+logINT(2*L+2)+log(Birth-s[Spot-1])+log(s[Spot]-Birth);
       alpha = alpha - 2*log(m1)-log(s[Spot]-s[Spot-1]);
       //Perturbation
       alpha=alpha-log(U1*(1-U1)) ;
@@ -3038,9 +3044,9 @@ List PieceMCMC( arma::vec Y, //Survival Times
       //Prior Ratio
       //Poisson
       //Poisson
-      alpha = alpha  -log(Poi) + log(L);
+      alpha = alpha  -logINT(Poi) + logINT(L);
       //S Prior
-      alpha = alpha + 2*log(m1) + log(s[Spot+1]-s[Spot-1]) - log(2*L+1) - log(2L) - log(s[Spot]-s[Spot-1])-log(s[Spot+1]-s[Spot]);
+      alpha = alpha + 2*log(m1) + log(s[Spot+1]-s[Spot-1]) - logINT(2*L+1) - logINT(2L) - log(s[Spot]-s[Spot-1])-log(s[Spot+1]-s[Spot]);
       //Lambda Prior, we DROPPED one
 
       if(L==1){

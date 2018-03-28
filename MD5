@@ -1,4 +1,4 @@
-2eed339f55c36e90303159dbf777198a *DESCRIPTION
+b776f72fb81279d0c2431bef8d66c5f2 *DESCRIPTION
 6642752d2b235879e210dbcbd4c88d41 *NAMESPACE
 2cc5f9c4012459e517bfe406ed55814d *R/RcppExports.R
 9f54cb7e2c7d43d3e952dbe4dd6a67de *R/Reoptimize.R
@@ -20,5 +20,5 @@ e55407dd38c92393c63e35e35e1a75cd *man/RunAdaptiveEffToxTrial.Rd
 b18318e7a9e42f77f3ae5fff9fb3b8f0 *man/SimPhase3.Rd
 4d751a816a417548d9de308ba62c3ba7 *src/Makevars
 4d751a816a417548d9de308ba62c3ba7 *src/Makevars.win
-0914e758da55a83e10e1d952da5ddf22 *src/PHASE123CODE.cpp
+a316f28a542d151b7bc7fb37d93b0fa0 *src/PHASE123CODE.cpp
 b7c62b8127062e4e6ebc271d5b6e597a *src/RcppExports.cpp

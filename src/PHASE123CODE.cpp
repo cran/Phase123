@@ -144,16 +144,16 @@ double Like(arma::vec YE1, //Binary indicators of efficacy
     probs[3]= log(piE*piT + Con1);
 
     //Loop over each patient
-    if(YE[i]==0 && YT[i]==0){
+    if( (YE[i]==0) && (YT[i]==0)){
       LogL = LogL + probs[0];
     }
-    if(YE[i]==1 && YT[i]==0){
+    if( (YE[i]==1) && (YT[i]==0)){
       LogL = LogL + probs[1];
     }
-    if(YE[i]==0 && YT[i]==1){
+    if( (YE[i]==0) && (YT[i]==1) ){
       LogL = LogL + probs[2];
     }
-    if(YE[i]==1 && YT[i]==1){
+    if( (YE[i]==1) && (YT[i]==1)){
       LogL = LogL + probs[3];
     }
 
@@ -229,7 +229,7 @@ double Like2( arma::vec Y, //Survival Times
       LogL = LogL - max1(0,min1(s(l+1),Y(m))-s(l))*exp(eta[m]+lam[l]);
 
 
-      if(Y(m)>s[l] & Y(m)<=s[l+1] & I[m]==1){
+      if( (Y(m)>s[l]) && (Y(m)<=s[l+1]) && (I[m]==1)){
         LogL = LogL + lam[l];
       }
 
@@ -2425,7 +2425,7 @@ int SampleBirth(arma::vec s){
   }else{
 
     for(m=1;m<cumprob.n_rows;m++){
-      if(U>cumprob[m-1] & U<cumprob[m]){
+      if( (U>cumprob[m-1]) && (U<cumprob[m])){
         Which1=m;
       }
     }

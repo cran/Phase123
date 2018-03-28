@@ -1,7 +1,7 @@
 Package: Phase123
 Type: Package
 Title: Simulating and Conducting Phase 123 Trials
-Version: 1.4
+Version: 1.5
 Date: 2018-01-31
 Author: Andrew G Chapple
 Maintainer: Andrew Chapple <andrew.g.chapple@rice.edu>
@@ -13,6 +13,6 @@ Imports: Rcpp (>= 0.12.9),survival, stats
 LinkingTo: Rcpp, RcppArmadillo
 RoxygenNote: 6.0.1
 NeedsCompilation: yes
-Packaged: 2018-02-18 16:51:19 UTC; Andrew
+Packaged: 2018-03-28 19:05:44 UTC; Andrew
 Repository: CRAN
-Date/Publication: 2018-02-18 18:12:16 UTC
+Date/Publication: 2018-03-28 22:59:57 UTC

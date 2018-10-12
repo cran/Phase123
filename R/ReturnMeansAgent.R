@@ -65,6 +65,7 @@ if(Family=="Exponential"){
 
   Means=Means*exp(beta[1]*Doses+beta[4]*Doses^2+beta[5])
 
+
   return(Means)
 }
 

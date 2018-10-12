@@ -4,8 +4,9 @@
 \alias{SimPhase3}
 \title{Performs one replication of phase 3 for the phase 123 design, given phase 12 data.}
 \usage{
-SimPhase3(Dose, Phase12, PE, PT, Hypermeans, Hypervars, beta, ProbC, betaC,
-  Family, alpha, Nmax, Opt, Accrue, Time12, Twait, NLookSwitch, NLook, Sup, Fut)
+SimPhase3(Dose, Phase12, PE, PT, Hypermeans, Hypervars, betaA, ProbC,
+  betaC, Family, alpha, Nmax, Opt, Accrue, Time12, Twait, NLookSwitch,
+  NLook, Sup, Fut)
 }
 \arguments{
 \item{Dose}{Vector of standardized doses considered in the trial.}
@@ -20,7 +21,7 @@ SimPhase3(Dose, Phase12, PE, PT, Hypermeans, Hypervars, beta, ProbC, betaC,
 
 \item{Hypervars}{Prior Variances for the Eff-Tox design of length 6.}
 
-\item{beta}{True linear term for the rate or mean parameter}
+\item{betaA}{True linear term for the rate or mean parameter (beta_1,exp(beta_E),-exp(beta_T),beta_2,beta_0) for agent A.}
 
 \item{ProbC}{Probability of efficacy and toxicity for the control therapy.}
 
@@ -73,7 +74,7 @@ Family="Exponential"
 ###Shape parameter ## Doesn't matter for exponential distribution
 alpha=1
 ###True Beta vector
-beta = c(.75,-.5, .3, -.25,2.143)
+betaA = c(.75,-.5, .3, -.25,2.143)
 ##True beta vector for efficacy, toxicity and intercept of the control treatment
 betaC=c(.3,-.25,2.389)
 ##True efficacy and toxicity probability for control group
@@ -115,10 +116,10 @@ Fut = c(0,1.001,0)
 Opt=3
 ##Number of simulations to run
 nSims=10
-SimPhase3(Dose,Phase12,PE,PT,Hypermeans,Hypervars,beta,
+SimPhase3(Dose,Phase12,PE,PT,Hypermeans,Hypervars,betaA,
 ProbC,betaC,Family,alpha,Nmax,Opt,Accrue,
 Time12,Twait,NLookSwitch,NLook,Sup,Fut)
 }
 \references{
-[1] Chapple and Thall (2018). A Hybrid Phase 12/3 Clinical Trial Design Allowing Dose Re-Optimization in Phase 3 Biometrics. Under Review.
+[1] Chapple and Thall (2018).A Hybrid Phase I-II/III Clinical Trial Design Allowing Dose Re-Optimization in Phase III. Biometrics. In Press,
 }

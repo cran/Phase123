@@ -1,4 +1,4 @@
-#' Gives the Optimal Dose for enrolling next patient cohort.
+#' Gives the Optimal Dose for enrolling next patient cohort. Used in the SimPhase123 function.
 #'
 #' This function returns the optimal dose number to assign the next patient cohort or stops the trial if no dose is deemed acceptable.
 #' @param Y Vector containing observed patient survival or follow up times.
@@ -29,9 +29,9 @@
 #'Hypervars=Hypervars^2
 #'###Number of iterations
 #'B=20000
-#'Reoptimize(Y,I,YE,YT, Doses, Dose, Hypermeans,  Hypervars,B)
+#'Reoptimize1(Y,I,YE,YT, Doses, Dose, Hypermeans,  Hypervars,B)
 #' @export
-Reoptimize=function(Y,I,YE,YT, Doses, Dose, Hypermeans,  Hypervars, B ){
+Reoptimize1=function(Y,I,YE,YT, Doses, Dose, Hypermeans,  Hypervars, B ){
 
 
 
@@ -128,12 +128,10 @@ Reoptimize=function(Y,I,YE,YT, Doses, Dose, Hypermeans,  Hypervars, B ){
 
 
 
-  cat("\nAssign Patients receiving A to dose ")
 
   return(OptDose)
 
 
 }
-
 
 

@@ -4,8 +4,8 @@
 \alias{RunAdaptiveEffToxTrial}
 \title{Simulates repitions of an Adaptive Eff-Tox Trial.}
 \usage{
-RunAdaptiveEffToxTrial(DoseStart, Dose, Hypermeans, Hypervars, Contour, PiLim,
-  ProbLim, cohort, NET, NF, B, nSims, PETrue, PTTrue)
+RunAdaptiveEffToxTrial(DoseStart, Dose, Hypermeans, Hypervars, Contour,
+  PiLim, ProbLim, cohort, NET, NF, B, nSims, PETrue, PTTrue)
 }
 \arguments{
 \item{DoseStart}{Dose to start enrolling cohorts of patients at.}

@@ -7,7 +7,7 @@
 #' @param Phase12 Matrix Consisting of patient data from a phase 12 trial. The columns are in order: Doses given, YE, YT, Accrual Times
 #' @param Hypermeans Prior Means for the Eff-Tox design of length 6.
 #' @param Hypervars Prior Variances for the Eff-Tox design of length 6.
-#' @param beta True linear term for the rate or mean parameter
+#' @param betaA True linear term for the rate or mean parameter (beta_1,exp(beta_E),-exp(beta_T),beta_2,beta_0) for agent A.
 #' @param ProbC Probability of efficacy and toxicity for the control therapy.
 #' @param betaC Linear term for efficacy, toxicity and beta_0 for the control group.
 #' @param Family Time to event distribution. Options include: Exponential, Gamma, Weibull, Lognormal.
@@ -24,9 +24,10 @@
 #' @importFrom  stats sd rbinom rexp rgamma rlnorm rweibull
 #' @importFrom survival coxph
 #' @importFrom Rcpp evalCpp
+#' @importFrom stats quantile
 #' @useDynLib Phase123
 #' @references
-#' [1] Chapple and Thall (2018). A Hybrid Phase 12/3 Clinical Trial Design Allowing Dose Re-Optimization in Phase 3 Biometrics. Under Review.
+#' [1] Chapple and Thall (2018).A Hybrid Phase I-II/III Clinical Trial Design Allowing Dose Re-Optimization in Phase III. Biometrics. In Press,
 #' @examples
 #' library(survival)
 #'##True Efficacy and Toxicity Probabilities
@@ -49,7 +50,7 @@
 #'###Shape parameter ## Doesn't matter for exponential distribution
 #'alpha=1
 #'###True Beta vector
-#'beta = c(.75,-.5, .3, -.25,2.143)
+#'betaA = c(.75,-.5, .3, -.25,2.143)
 #'##True beta vector for efficacy, toxicity and intercept of the control treatment
 #'betaC=c(.3,-.25,2.389)
 #'##True efficacy and toxicity probability for control group
@@ -91,12 +92,12 @@
 #'Opt=3
 #'##Number of simulations to run
 #'nSims=10
-#'SimPhase3(Dose,Phase12,PE,PT,Hypermeans,Hypervars,beta,
+#'SimPhase3(Dose,Phase12,PE,PT,Hypermeans,Hypervars,betaA,
 #'ProbC,betaC,Family,alpha,Nmax,Opt,Accrue,
 #'Time12,Twait,NLookSwitch,NLook,Sup,Fut)
 #' @export
-SimPhase3=function(Dose,Phase12,PE,PT,Hypermeans,Hypervars,beta,ProbC,betaC,Family,alpha,Nmax,Opt,Accrue,Time12,Twait,NLookSwitch,NLook,Sup,Fut){
-  betaA = c(beta[1],beta[4],beta[2],beta[3],beta[5])
+SimPhase3=function(Dose,Phase12,PE,PT,Hypermeans,Hypervars,betaA,ProbC,betaC,Family,alpha,Nmax,Opt,Accrue,Time12,Twait,NLookSwitch,NLook,Sup,Fut){
+
 
   B=2e3
 
@@ -120,7 +121,7 @@ SimPhase3=function(Dose,Phase12,PE,PT,Hypermeans,Hypervars,beta,ProbC,betaC,Fami
     if(Family=="Gamma"){
 
       for(h in 1:NET){
-    TIMES[h]=rgamma(1,alpha,rate=exp(betaA[1]*Doses[h]+betaA[2]*YE[h]+betaA[3]*YT[h]+betaA[4]*Doses[h]^2+betaA[5]))
+    TIMES[h]=rgamma(1,alpha,1/exp(betaA[1]*Doses[h]+betaA[2]*YE[h]+betaA[3]*YT[h]+betaA[4]*Doses[h]^2+betaA[5]))
     }
     }
 
@@ -139,7 +140,7 @@ SimPhase3=function(Dose,Phase12,PE,PT,Hypermeans,Hypervars,beta,ProbC,betaC,Fami
 
   if(Family=="Exponential"){
     for(h in 1:NET){
-      TIMES[h]=rgamma(1,1,rate=exp(betaA[1]*Doses[h]+betaA[2]*YE[h]+betaA[3]*YT[h]+betaA[4]*Doses[h]^2+betaA[5]))
+      TIMES[h]=rexp(1,1/exp(betaA[1]*Doses[h]+betaA[2]*YE[h]+betaA[3]*YT[h]+betaA[4]*Doses[h]^2+betaA[5]))
     }
   }
 
@@ -167,7 +168,7 @@ SimPhase3=function(Dose,Phase12,PE,PT,Hypermeans,Hypervars,beta,ProbC,betaC,Fami
         YTCont[b]=rbinom(1,1,ProbC[2])
 
 
-    TimeCont[b]=rgamma(1,alpha,rate=exp(YE*betaC[1]+YT*betaC[2]+betaC[3]))
+    TimeCont[b]=rgamma(1,alpha,1/exp(YE*betaC[1]+YT*betaC[2]+betaC[3]))
       }
 
     }
@@ -178,7 +179,7 @@ SimPhase3=function(Dose,Phase12,PE,PT,Hypermeans,Hypervars,beta,ProbC,betaC,Fami
       YTCont[b]=rbinom(1,1,ProbC[2])
 
 
-      TimeCont[b]=rgamma(1,1,rate=exp(YE*betaC[1]+YT*betaC[2]+betaC[3]))
+      TimeCont[b]=rgamma(1,1,1/exp(YE*betaC[1]+YT*betaC[2]+betaC[3]))
     }
 
   }
@@ -299,11 +300,11 @@ Time2=Time12
       YT[i] =  rbinom(1,1,probT[OptDose])
 
       if(Family=="Gamma"){
-      Times[i]= rgamma(1,alpha,rate=exp(betaA[1]*Dose[OptDose]+betaA[4]*Dose[OptDose]^2+YE[i]*betaA[2]+YT[i]*betaA[3]+betaA[5]))
+      Times[i]= rgamma(1,alpha,1/exp(betaA[1]*Dose[OptDose]+betaA[4]*Dose[OptDose]^2+YE[i]*betaA[2]+YT[i]*betaA[3]+betaA[5]))
       }
 
       if(Family=="Exponential"){
-        Times[i]= rgamma(1,1,rate=exp(betaA[1]*Dose[OptDose]+betaA[4]*Dose[OptDose]^2+YE[i]*betaA[2]+YT[i]*betaA[3]+betaA[5]))
+        Times[i]= rgamma(1,1,1/exp(betaA[1]*Dose[OptDose]+betaA[4]*Dose[OptDose]^2+YE[i]*betaA[2]+YT[i]*betaA[3]+betaA[5]))
       }
 
       if(Family=="Weibull"){
@@ -362,15 +363,19 @@ Time2=Time12
   I=c(I,IOLD1)
   Doses2=c(Doses1,XOLD)
 
+
 OptDose3=OptDose
-OptDose=  Reoptimize(Y,I,YE1,YT1, Dose[Doses2], Dose, Hypermeans,  Hypervars, B )
+OptDose=  Reoptimize1(Y,I,YE1,YT1, Doses2, Dose, Hypermeans,  Hypervars, B )
 OptDose1=OptDose
+
+
 
 NumLooks = length(NLook)
 
 ##Now we have the newly reoptimized dose in terms of mean survival. Let's finish the trial, and report the results of both
 ##This and the conventional approach.
-
+DECISION=NA
+DECISIONREG=NA
 
 Decision=NA
 DecisionREG=NA
@@ -392,7 +397,6 @@ if(OptDose==OptDose3){
       while(NDeath<NLook[k]){
 
         if(i==Nmax){
-          print("Break")
           INDSTOP=1
           break
         }
@@ -413,11 +417,11 @@ if(OptDose==OptDose3){
 
 
           if(Family=="Gamma"){
-            Times[i]= rgamma(1,alpha,rate=exp(betaA[1]*Dose[OptDose]+betaA[4]*Dose[OptDose]^2+YE[i]*betaA[2]+YT[i]*betaA[3]+betaA[5]))
+            Times[i]= rgamma(1,alpha,1/exp(betaA[1]*Dose[OptDose]+betaA[4]*Dose[OptDose]^2+YE[i]*betaA[2]+YT[i]*betaA[3]+betaA[5]))
           }
 
           if(Family=="Exponential"){
-            Times[i]= rgamma(1,1,rate=exp(betaA[1]*Dose[OptDose]+betaA[4]*Dose[OptDose]^2+YE[i]*betaA[2]+YT[i]*betaA[3]+betaA[5]))
+            Times[i]= rgamma(1,1,1/exp(betaA[1]*Dose[OptDose]+betaA[4]*Dose[OptDose]^2+YE[i]*betaA[2]+YT[i]*betaA[3]+betaA[5]))
           }
 
           if(Family=="Weibull"){
@@ -453,10 +457,9 @@ if(OptDose==OptDose3){
 
 
       if(INDSTOP==1){
-        while(NDeath<NLook[k]){
 
 
-          trial.time = trial.time +.1
+          trial.time = quantile((ACC+Times), NLook[k]/Nmax)
 
 
 
@@ -465,17 +468,16 @@ if(OptDose==OptDose3){
 
 
 
-        }
+
 
 
       }
 
     }else{
 
-      while(NDeath<NLook[k]){
 
 
-        trial.time = trial.time +.1
+        trial.time = quantile((ACC+Times), NLook[k]/Nmax)
 
 
 
@@ -484,7 +486,7 @@ if(OptDose==OptDose3){
 
 
 
-      }
+
 
 
 
@@ -586,7 +588,6 @@ if(OptDose==OptDose3){
   ##We need two separate trials, one for each control and regular
   ##Do Regular Trial First
 
-
   NDeath=0
   i=iREG
 
@@ -625,11 +626,11 @@ if(OptDose==OptDose3){
 
 
           if(Family=="Gamma"){
-            TimesREG[i]= rgamma(1,alpha,rate=exp(betaA[1]*Dose[OptDose]+betaA[4]*Dose[OptDose]^2+YE[i]*betaA[2]+YT[i]*betaA[3]+betaA[5]))
+            TimesREG[i]= rgamma(1,alpha,1/exp(betaA[1]*Dose[OptDose]+betaA[4]*Dose[OptDose]^2+YE[i]*betaA[2]+YT[i]*betaA[3]+betaA[5]))
           }
 
           if(Family=="Exponential"){
-            TimesREG[i]= rgamma(1,1,rate=exp(betaA[1]*Dose[OptDose]+betaA[4]*Dose[OptDose]^2+YE[i]*betaA[2]+YT[i]*betaA[3]+betaA[5]))
+            TimesREG[i]= rgamma(1,1,1/exp(betaA[1]*Dose[OptDose]+betaA[4]*Dose[OptDose]^2+YE[i]*betaA[2]+YT[i]*betaA[3]+betaA[5]))
           }
 
           if(Family=="Weibull"){
@@ -667,13 +668,11 @@ if(OptDose==OptDose3){
       if(INDSTOP==1){
 
 
-        while(NDeath<NLook[k]){
-
-          trial.time = trial.time +.1
 
 
 
 
+          trial.time = quantile(ACC+TimesREG,NLook[k]/Nmax)
 
 
           ##Calculate the numnber of toxicities in the trial thusfar
@@ -682,8 +681,6 @@ if(OptDose==OptDose3){
 
 
 
-        }
-
 
       }
 
@@ -691,10 +688,9 @@ if(OptDose==OptDose3){
 
     }else{
 
-      while(NDeath<NLook[k]){
 
 
-        trial.reg = trial.reg +.1
+        trial.reg = quantile((ACC+TimesREG),NLook[k]/Nmax)
 
 
 
@@ -709,7 +705,7 @@ if(OptDose==OptDose3){
 
 
 
-      }
+
 
 
 
@@ -796,7 +792,6 @@ if(OptDose==OptDose3){
     if(INDSTOP==0){
       while(NDeath<NLook[k]){
         if(i==Nmax){
-          print("Break")
           INDSTOP=1
           break
         }
@@ -818,11 +813,11 @@ if(OptDose==OptDose3){
 
 
           if(Family=="Gamma"){
-            Times[i]= rgamma(1,alpha,rate=exp(betaA[1]*Dose[OptDose]+betaA[4]*Dose[OptDose]^2+YE[i]*betaA[2]+YT[i]*betaA[3]+betaA[5]))
+            Times[i]= rgamma(1,alpha,1/exp(betaA[1]*Dose[OptDose]+betaA[4]*Dose[OptDose]^2+YE[i]*betaA[2]+YT[i]*betaA[3]+betaA[5]))
           }
 
           if(Family=="Exponential"){
-            Times[i]= rgamma(1,1,rate=exp(betaA[1]*Dose[OptDose]+betaA[4]*Dose[OptDose]^2+YE[i]*betaA[2]+YT[i]*betaA[3]+betaA[5]))
+            Times[i]= rgamma(1,1,1/exp(betaA[1]*Dose[OptDose]+betaA[4]*Dose[OptDose]^2+YE[i]*betaA[2]+YT[i]*betaA[3]+betaA[5]))
           }
 
           if(Family=="Weibull"){
@@ -860,9 +855,8 @@ if(OptDose==OptDose3){
       if(INDSTOP==1){
 
 
-        while(NDeath<NLook[k]){
 
-          trial.time = trial.time +.1
+          trial.time = quantile((ACC+Times),NLook[k]/Nmax)
 
 
 
@@ -875,15 +869,14 @@ if(OptDose==OptDose3){
 
 
 
-        }
+
 
 
       }
 
     }else{
-      while(NDeath<NLook[k]){
 
-        trial.time = trial.time +.1
+        trial.time = quantile((ACC+Times),NLook[k]/Nmax)
 
 
 
@@ -896,7 +889,7 @@ if(OptDose==OptDose3){
 
 
 
-      }
+
 
     }
 
@@ -911,11 +904,10 @@ if(OptDose==OptDose3){
     Y = pmin(Y,trial.time-ACC1)
     I = (Y+ACC1)<trial.time
 
+
     Trt2=subset(Trt1, Trt1==0 | Doses1==OptDose)
     Y=subset(Y, Trt1==0 | Doses1==OptDose)
     I=subset(I, Trt1==0 | Doses1==OptDose)
-
-
 
 
 

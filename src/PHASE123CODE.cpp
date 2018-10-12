@@ -197,14 +197,10 @@ double Like2( arma::vec Y, //Survival Times
 ){
 
 
-  //arma::vec beta1=exp(beta);
-  //  beta[0]=-beta1[0];
-  //  beta[1]=-beta1[1];
 
-  // arma::vec eta = beta1[0]*Doses+beta1[1]*YE+beta1[2]*YT;
+
   arma::vec eta = beta[0]*Doses-exp(beta[1])*YE+exp(beta[2])*YT + beta[3]*pow(Doses,2);
 
-  // arma::vec eta = beta[0]*Doses+beta[1]*YE+beta[2]*YT + beta[3]*pow(Doses,2);
 
 
   int m=0;
@@ -221,7 +217,6 @@ double Like2( arma::vec Y, //Survival Times
   }
 
 
-  //Rf_PrintValue(wrap(eta));
 
   //Cycle through each interval and obtain survival estimates and add hazard heights
   for(l=0; l<(J+1);l++){
@@ -1387,12 +1382,12 @@ arma::vec Lower=ProbLim;
 
 
       }else{
-        Rprintf("Skipped Simulation      ");
+   //     Rprintf("Skipped Simulation      ");
       }
 
 
     }else{
-      Rprintf("Skipped Simulation       ");
+  //    Rprintf("Skipped Simulation       ");
     }
 
 
@@ -2582,7 +2577,6 @@ List PieceMCMC( arma::vec Y, //Survival Times
     Intb[j]=1;
     Numb[j]=2;
   }
-
 
 
 

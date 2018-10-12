@@ -6,7 +6,7 @@
 #' @param NF Number of patients to assign deterministic doses prior to adaptive randomization.
 #' @param Hypermeans Prior Means for the Eff-Tox design of length 6.
 #' @param Hypervars Prior Variances for the Eff-Tox design of length 6.
-#' @param beta True linear term for the rate or mean parameter
+#' @param betaA True linear term for the rate or mean parameter (beta_1,exp(beta_E),-exp(beta_T),beta_2,beta_0) for agent A.
 #' @param Family Time to event distribution. Options include: Exponential, Gamma, Weibull, Lognormal.
 #' @param alpha Shape parameter or standard deviation of a lognormal distribution.
 #' @param Nmax Maximum number of patients to enroll in phase 3.
@@ -31,19 +31,20 @@
 #' @importFrom  stats sd
 #' @import survival
 #' @references
-#' [1] Chapple and Thall (2018). A Hybrid Phase 12/3 Clinical Trial Design Allowing Dose-Re-Optimization in Phase 3 Biometrics. Under Review.
+#' [1] Chapple and Thall (2018).A Hybrid Phase I-II/III Clinical Trial Design Allowing Dose Re-Optimization in Phase III. Biometrics. In Press,
 #' @examples
-#'# ##We need to specify Phase 12,
+#'  ##We need to specify Phase 12,
 #'###Phase 3 trial paramters,
 #'##the additional phase 123 parameters and simulation parameters
-#' ###########PHASE12##################
+#'#This is scenario 3 for the exponetial case
+#'##the additional phase 123 parameters and simulation parameters
+#' ###########PHASE12 Parameters ##################
 #' DoseStart=1
 #'##True Efficacy and Toxicity Probabilities
-#'PT = c(.1,.15,.25,.35,.5)
-#'PE=c(.2,.4,.6,.65,.7)
-#'##Dose Levels considered
+#'PT = c(.05,.08,.1,.15,.2)
+#'PE=c(.2,.25,.35,.4,.55)
+#'##Raw Dose Levels considered
 #'Dose = c(1,2,3,3.5,5)
-#'Dose=(Dose-mean(Dose))/sd(Dose)
 #'#Max Sample Size
 #'NET=30
 #'##Number of patients before randomization
@@ -60,11 +61,10 @@
 #'PiLim = c(.3,.4)
 #'ProbLim=c(.1,.1)
 #'##Phase 12 accrual rate
-#'Accrue12=2
+#'Accrue12=5
 #'###How long is the time window in phase 12?
 #'Time12=1
-#'
-#'##########PHASE3####################
+#'##########PHASE3 Parameters####################
 #'Nmax=500
 #'##Number of patient events for interim looks
 #'NLook = c(200,300,400)
@@ -75,31 +75,34 @@
 #'##Average accrual rate for phase III
 #'Accrue = 10
 #'###########Phase123 Parameters###########
-#' ###Number of patient events to re-optimize doses
-#' NLookSwitch=50
+#'###Number of patient events to re-optimize doses
+#'NLookSwitch=50
 #' ##Time in between phase 12 and phase 3
 #' Twait=1
-#'
-#########Simulation Parameters######
+#' #########Simulation Parameters######
 #'###Family of Distributions
 #'Family="Gamma"
-#'###Shape parameter
-#'alpha=2
-#'###True Beta vector (beta_x,beta_{2x},beta_E,beta_T,beta_0)
-#'beta = c(.75,-.5, .3, -.25,2.143)
-#'##True beta vector for efficacy, toxicity and intercept of the control treatment
-#'betaC=c(.3,-.25,2.389)
+#'###Shape parameter, Not needed for Exponential
+#'alpha=1
+#'###True Beta vector (beta_1,exp(beta_E),-exp(beta_T),beta_2,beta_0)
+#'betaA = c(.1, .3, -1,-1,3.6)
+#'##True beta vector for (exp(beta_E),-exp(beta_T),beta_C)  of the control treatment
+#'betaC=c(.3,-1,log(24/1.035111))
 #'##True efficacy and toxicity probability for control group
-#'ProbC = c(.4,.15)
+#'ProbC = c(.3,.1)
 #'##Number of simulations to run
 #'nSims=1
-#'
-#'SimPhase123(DoseStart,Dose,PE,PT,Hypermeans,Hypervars,Contour,
-#'PiLim,ProbLim,NET,NF,Accrue12,Time12,cohort,beta,ProbC,betaC,
-#'Family,alpha,Nmax,Accrue,Twait,NLookSwitch,NLook,Sup,Fut,nSims)
+#'##Run Simulations
+#'Results=SimPhase123(DoseStart,Dose,PE,PT,Hypermeans,Hypervars,Contour,
+#'                  PiLim,ProbLim,NET,NF,Accrue12,Time12,cohort,betaA,ProbC,betaC,
+#'                 Family,alpha,Nmax,Accrue,Twait,NLookSwitch,NLook,Sup,Fut,nSims)
 #' @export
-SimPhase123=function(DoseStart,Dose,PE,PT,Hypermeans,Hypervars,Contour,PiLim,ProbLim,NET,NF,Accrue12,Time12,cohort,beta,ProbC,betaC,Family,alpha,Nmax,Accrue,Twait,NLookSwitch,NLook,Sup,Fut,nSims){
+SimPhase123=function(DoseStart,Dose,PE,PT,Hypermeans,Hypervars,Contour,PiLim,ProbLim,NET,NF,Accrue12,Time12,cohort,betaA,ProbC,betaC,Family,alpha,Nmax,Accrue,Twait,NLookSwitch,NLook,Sup,Fut,nSims){
 
+
+  Doselog = log(Dose)-mean(log(Dose))
+
+  Dose1=(Dose-mean(Dose))/sd(Dose)
 
 
 PH123=matrix(rep(NA,4*nSims),nrow=nSims)
@@ -110,13 +113,22 @@ B=2000
 
   for(h in 1:nSims){
 
+    if(h%%10==0){
+      cat(h, "Simulations Finished
 
-Phase12 = RunAdaptiveEffToxTrial(DoseStart,Dose, Hypermeans,  Hypervars,  Contour, PiLim, ProbLim,  cohort, NET,  NF, B, 1, PE, PT )
+          ")
+
+    }
+
+
+Phase12 = RunAdaptiveEffToxTrial(DoseStart,Doselog, Hypermeans,  Hypervars,  Contour, PiLim, ProbLim,  cohort, NET,  NF, B, 1, PE, PT )
+
+Opt=Phase12[[1]][1]
+
 Phase12=Phase12[[3]]
 
 Phase12[,1]=Phase12[,1]+1
 
-Opt=Phase12[[1]][1]
 
 ACC1=cumsum(rexp(NET,Accrue12))
 Grab = rep(NA,NET/cohort)
@@ -125,7 +137,9 @@ for(m in 1:length(Grab)){ACC1[((m-1)*cohort+1):((m-1)*cohort+cohort)]=rep(Grab[m
 Phase12 = cbind(Phase12,ACC1)
 
 
-Z=SimPhase3(Dose,Phase12,PE,PT,Hypermeans,Hypervars,beta,ProbC,betaC,Family,alpha,Nmax,Opt,Accrue,Time12,Twait,NLookSwitch,NLook,Sup,Fut)
+
+
+Z=SimPhase3(Dose1,Phase12,PE,PT,Hypermeans,Hypervars,betaA,ProbC,betaC,Family,alpha,Nmax,Opt,Accrue,Time12,Twait,NLookSwitch,NLook,Sup,Fut)
 
 
 Z123=Z[[1]]

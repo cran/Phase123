@@ -5,8 +5,8 @@
 \title{Simulates replications of the phase123 and phase 12-3 trials.}
 \usage{
 SimPhase123(DoseStart, Dose, PE, PT, Hypermeans, Hypervars, Contour, PiLim,
-  ProbLim, NET, NF, Accrue12, Time12, cohort, beta, ProbC, betaC, Family, alpha,
-  Nmax, Accrue, Twait, NLookSwitch, NLook, Sup, Fut, nSims)
+  ProbLim, NET, NF, Accrue12, Time12, cohort, betaA, ProbC, betaC, Family,
+  alpha, Nmax, Accrue, Twait, NLookSwitch, NLook, Sup, Fut, nSims)
 }
 \arguments{
 \item{DoseStart}{Starting dose of the phase 12 trial.}
@@ -37,7 +37,7 @@ SimPhase123(DoseStart, Dose, PE, PT, Hypermeans, Hypervars, Contour, PiLim,
 
 \item{cohort}{Size of each patient cohort.}
 
-\item{beta}{True linear term for the rate or mean parameter}
+\item{betaA}{True linear term for the rate or mean parameter (beta_1,exp(beta_E),-exp(beta_T),beta_2,beta_0) for agent A.}
 
 \item{ProbC}{Probability of efficacy and toxicity for the control therapy.}
 
@@ -67,17 +67,18 @@ SimPhase123(DoseStart, Dose, PE, PT, Hypermeans, Hypervars, Contour, PiLim,
 This function simulates replications of the phase123 and phase 12-3 trials and returns a list containing the doses chosen, decisions made (1=A(x) better, 0= futility, -1=C better)
 }
 \examples{
-# ##We need to specify Phase 12,
+ ##We need to specify Phase 12,
 ###Phase 3 trial paramters,
 ##the additional phase 123 parameters and simulation parameters
-###########PHASE12##################
+#This is scenario 3 for the exponetial case
+##the additional phase 123 parameters and simulation parameters
+###########PHASE12 Parameters ##################
 DoseStart=1
 ##True Efficacy and Toxicity Probabilities
-PT = c(.1,.15,.25,.35,.5)
-PE=c(.2,.4,.6,.65,.7)
-##Dose Levels considered
+PT = c(.05,.08,.1,.15,.2)
+PE=c(.2,.25,.35,.4,.55)
+##Raw Dose Levels considered
 Dose = c(1,2,3,3.5,5)
-Dose=(Dose-mean(Dose))/sd(Dose)
 #Max Sample Size
 NET=30
 ##Number of patients before randomization
@@ -94,11 +95,10 @@ Contour = c(.35, .75,.7,.4)
 PiLim = c(.3,.4)
 ProbLim=c(.1,.1)
 ##Phase 12 accrual rate
-Accrue12=2
+Accrue12=5
 ###How long is the time window in phase 12?
 Time12=1
-
-##########PHASE3####################
+##########PHASE3 Parameters####################
 Nmax=500
 ##Number of patient events for interim looks
 NLook = c(200,300,400)
@@ -113,24 +113,24 @@ Accrue = 10
 NLookSwitch=50
 ##Time in between phase 12 and phase 3
 Twait=1
-
+#########Simulation Parameters######
 ###Family of Distributions
 Family="Gamma"
-###Shape parameter
-alpha=2
-###True Beta vector (beta_x,beta_{2x},beta_E,beta_T,beta_0)
-beta = c(.75,-.5, .3, -.25,2.143)
-##True beta vector for efficacy, toxicity and intercept of the control treatment
-betaC=c(.3,-.25,2.389)
+###Shape parameter, Not needed for Exponential
+alpha=1
+###True Beta vector (beta_1,exp(beta_E),-exp(beta_T),beta_2,beta_0)
+betaA = c(.1, .3, -1,-1,3.6)
+##True beta vector for (exp(beta_E),-exp(beta_T),beta_C)  of the control treatment
+betaC=c(.3,-1,log(24/1.035111))
 ##True efficacy and toxicity probability for control group
-ProbC = c(.4,.15)
+ProbC = c(.3,.1)
 ##Number of simulations to run
 nSims=1
-
-SimPhase123(DoseStart,Dose,PE,PT,Hypermeans,Hypervars,Contour,
-PiLim,ProbLim,NET,NF,Accrue12,Time12,cohort,beta,ProbC,betaC,
-Family,alpha,Nmax,Accrue,Twait,NLookSwitch,NLook,Sup,Fut,nSims)
+##Run Simulations
+Results=SimPhase123(DoseStart,Dose,PE,PT,Hypermeans,Hypervars,Contour,
+                 PiLim,ProbLim,NET,NF,Accrue12,Time12,cohort,betaA,ProbC,betaC,
+                Family,alpha,Nmax,Accrue,Twait,NLookSwitch,NLook,Sup,Fut,nSims)
 }
 \references{
-[1] Chapple and Thall (2018). A Hybrid Phase 12/3 Clinical Trial Design Allowing Dose-Re-Optimization in Phase 3 Biometrics. Under Review.
+[1] Chapple and Thall (2018).A Hybrid Phase I-II/III Clinical Trial Design Allowing Dose Re-Optimization in Phase III. Biometrics. In Press,
 }

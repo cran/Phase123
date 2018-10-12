@@ -4,8 +4,8 @@
 \alias{RandomEffTox}
 \title{Randomizes Eff-Tox dose proportional to posterior desireability scores.}
 \usage{
-RandomEffTox(YE, YT, Doses, Dose, DosesTried, Hypermeans, Hypervars, Contour,
-  PiLim, ProbLim, B)
+RandomEffTox(YE, YT, Doses, Dose, DosesTried, Hypermeans, Hypervars,
+  Contour, PiLim, ProbLim, B)
 }
 \arguments{
 \item{YE}{Vector containing observed efficacy indicators.}

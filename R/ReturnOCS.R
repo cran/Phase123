@@ -49,17 +49,20 @@ TRUEMEAN=Means
   NpatsREG = PH12[,3]
   TRIALTIMES = PH123[,4]
   TRIALTIMESREG = PH12[,4]
-  cat("TRIAL TIMES")
+  cat("TRIAL TIMES
+")
   cat("Conventional Design")
   print(mean(TRIALTIMESREG/12, na.rm=TRUE))
   cat("Phase123 Design")
   print(mean(TRIALTIMES/12, na.rm=TRUE))
-  cat("PATIENTS")
+  cat("Number of Patients
+")
   cat("Conventional Design")
   print(mean(NpatsREG, na.rm=TRUE))
   cat("Phase123 Design")
   print(mean(Npats, na.rm=TRUE))
-  cat("PROPORTION OF BEST DOSE SELECTED")
+  cat("Percentage of times best dose selected
+")
   cat("Conventional Design")
   print(mean(StartingDose==Best, na.rm=TRUE))
   cat("Phase123 Design")
@@ -92,27 +95,30 @@ TRUEMEAN=Means
 if(length(ALL)>1){
 
 
-  cat("Generalized Power")
-  cat("Conventional Design")
+  cat("Generalized Power
+")
+  cat("Conventional Design ")
   print(mean(DECISIONREG==1 & StartingDose %in% ALL, na.rm=TRUE))
-  cat("Phase123 Design")
+  cat("Phase123 Design ")
   print(mean(DECISION==1 & CHOSENDOSE %in% ALL, na.rm=TRUE))
 
 
 
-  cat("Probability of best decisions")
-  cat("Conventional Design")
+  cat("Probability of best decisions
+")
+  cat("Conventional Design ")
   print(mean(DECISIONREG==1 & StartingDose==Best, na.rm=TRUE))
-  cat("Phase123 Design")
+  cat("Phase123 Design ")
   print(mean(DECISION==1 & CHOSENDOSE==Best, na.rm=TRUE))
 
 
 }else{
 
-  cat("Generalized Power")
-  cat("Conventional Design")
+  cat("Generalized Power
+")
+  cat("Conventional Design ")
   print(mean(DECISIONREG==1 & StartingDose==Best, na.rm=TRUE))
-  cat("Phase123 Design")
+  cat("Phase123 Design ")
   print(mean(DECISION==1 & CHOSENDOSE==Best, na.rm=TRUE))
 
 }
@@ -120,24 +126,26 @@ if(length(ALL)>1){
 
 
 
-    cat("\bar{W} values: Average true improvement in survival")
+    cat("bar{W} values: Average true improvement in survival
+")
 
 
-    cat("Conventional Design")
+    cat("Conventional Design ")
     print(GETDELTA(DECISIONREG,StartingDose,TRUEMEAN,CMu))
 
 
 
-    cat("Phase123 Design")
+    cat("Phase123 Design ")
     print(GETDELTA(DECISION,CHOSENDOSE,TRUEMEAN,CMu))
 
 
   }else{
 
-    cat("Type I error")
-    cat("Conventional Design")
+    cat("Type I error
+")
+    cat("Conventional Design ")
     print(mean((DECISIONREG==1 | DECISIONREG==(-1)) & StartingDose==Best, na.rm=TRUE)+mean(DECISIONREG==1 & StartingDose !=Best),na.rm=TRUE)
-    cat("Phase123 Design")
+    cat("Phase123 Design ")
     print( mean((DECISION==1 | DECISION==(-1)) & CHOSENDOSE==Best , na.rm=TRUE)+mean(DECISION==1 & CHOSENDOSE !=Best,na.rm=TRUE))
   }
 

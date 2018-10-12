@@ -49,7 +49,7 @@
 #'Contour, PiLim, ProbLim,  cohort, NET,  NF, B, nSims, PETrue, PTTrue )
 #'@export
 RunAdaptiveEffToxTrial <- function(DoseStart, Dose, Hypermeans, Hypervars, Contour, PiLim, ProbLim, cohort, NET, NF, B, nSims, PETrue, PTTrue) {
-    .Call('Phase123_RunAdaptiveEffToxTrial', PACKAGE = 'Phase123', DoseStart, Dose, Hypermeans, Hypervars, Contour, PiLim, ProbLim, cohort, NET, NF, B, nSims, PETrue, PTTrue)
+    .Call('_Phase123_RunAdaptiveEffToxTrial', PACKAGE = 'Phase123', DoseStart, Dose, Hypermeans, Hypervars, Contour, PiLim, ProbLim, cohort, NET, NF, B, nSims, PETrue, PTTrue)
 }
 
 #' Determines the optimal dose to assign the next patient cohort.
@@ -91,7 +91,7 @@ RunAdaptiveEffToxTrial <- function(DoseStart, Dose, Hypermeans, Hypervars, Conto
 #'AssignEffTox(YE,YT, Doses, Dose, DosesTried, Hypermeans,  Hypervars, Contour, PiLim,  ProbLim, B )
 #'@export
 AssignEffTox <- function(YE, YT, Doses, Dose, DosesTried, Hypermeans, Hypervars, Contour, PiLim, ProbLim, B) {
-    .Call('Phase123_AssignEffTox', PACKAGE = 'Phase123', YE, YT, Doses, Dose, DosesTried, Hypermeans, Hypervars, Contour, PiLim, ProbLim, B)
+    .Call('_Phase123_AssignEffTox', PACKAGE = 'Phase123', YE, YT, Doses, Dose, DosesTried, Hypermeans, Hypervars, Contour, PiLim, ProbLim, B)
 }
 
 #' Randomizes Eff-Tox dose proportional to posterior desireability scores.
@@ -133,7 +133,7 @@ AssignEffTox <- function(YE, YT, Doses, Dose, DosesTried, Hypermeans, Hypervars,
 #'RandomEffTox(YE,YT, Doses, Dose, DosesTried, Hypermeans,  Hypervars, Contour, PiLim,  ProbLim, B )
 #'@export
 RandomEffTox <- function(YE, YT, Doses, Dose, DosesTried, Hypermeans, Hypervars, Contour, PiLim, ProbLim, B) {
-    .Call('Phase123_RandomEffTox', PACKAGE = 'Phase123', YE, YT, Doses, Dose, DosesTried, Hypermeans, Hypervars, Contour, PiLim, ProbLim, B)
+    .Call('_Phase123_RandomEffTox', PACKAGE = 'Phase123', YE, YT, Doses, Dose, DosesTried, Hypermeans, Hypervars, Contour, PiLim, ProbLim, B)
 }
 
 #' Returns posterior distribution for key mixture model parameters
@@ -167,7 +167,7 @@ RandomEffTox <- function(YE, YT, Doses, Dose, DosesTried, Hypermeans, Hypervars,
 #'G=PieceMCMC(Y,I,YE,YT,Doses,Dose,B,prob,MaxObs)
 #'@export
 PieceMCMC <- function(Y, I, YE, YT, Doses, Dose, B, prob, MaxObs) {
-    .Call('Phase123_PieceMCMC', PACKAGE = 'Phase123', Y, I, YE, YT, Doses, Dose, B, prob, MaxObs)
+    .Call('_Phase123_PieceMCMC', PACKAGE = 'Phase123', Y, I, YE, YT, Doses, Dose, B, prob, MaxObs)
 }
 
 #' Obtains estimated posterior probabilities of the four outcomes of (YE,YT) for each dose.
@@ -199,6 +199,6 @@ PieceMCMC <- function(Y, I, YE, YT, Doses, Dose, B, prob, MaxObs) {
 #'EFFTOX(YE,YT, Doses, Dose, Hypermeans,  Hypervars, B )
 #'@export
 EFFTOX <- function(YE, YT, Doses, Dose, Hypermeans, Hypervars, B) {
-    .Call('Phase123_EFFTOX', PACKAGE = 'Phase123', YE, YT, Doses, Dose, Hypermeans, Hypervars, B)
+    .Call('_Phase123_EFFTOX', PACKAGE = 'Phase123', YE, YT, Doses, Dose, Hypermeans, Hypervars, B)
 }
 

@@ -4,8 +4,8 @@
 \alias{AssignEffTox}
 \title{Determines the optimal dose to assign the next patient cohort.}
 \usage{
-AssignEffTox(YE, YT, Doses, Dose, DosesTried, Hypermeans, Hypervars, Contour,
-  PiLim, ProbLim, B)
+AssignEffTox(YE, YT, Doses, Dose, DosesTried, Hypermeans, Hypervars,
+  Contour, PiLim, ProbLim, B)
 }
 \arguments{
 \item{YE}{Vector containing observed efficacy indicators.}

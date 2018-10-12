@@ -8,7 +8,7 @@ using namespace Rcpp;
 
 // RunAdaptiveEffToxTrial
 List RunAdaptiveEffToxTrial(int DoseStart, arma::vec Dose, arma::vec Hypermeans, arma::vec Hypervars, arma::vec Contour, arma::vec PiLim, arma::vec ProbLim, int cohort, int NET, int NF, int B, int nSims, arma::vec PETrue, arma::vec PTTrue);
-RcppExport SEXP Phase123_RunAdaptiveEffToxTrial(SEXP DoseStartSEXP, SEXP DoseSEXP, SEXP HypermeansSEXP, SEXP HypervarsSEXP, SEXP ContourSEXP, SEXP PiLimSEXP, SEXP ProbLimSEXP, SEXP cohortSEXP, SEXP NETSEXP, SEXP NFSEXP, SEXP BSEXP, SEXP nSimsSEXP, SEXP PETrueSEXP, SEXP PTTrueSEXP) {
+RcppExport SEXP _Phase123_RunAdaptiveEffToxTrial(SEXP DoseStartSEXP, SEXP DoseSEXP, SEXP HypermeansSEXP, SEXP HypervarsSEXP, SEXP ContourSEXP, SEXP PiLimSEXP, SEXP ProbLimSEXP, SEXP cohortSEXP, SEXP NETSEXP, SEXP NFSEXP, SEXP BSEXP, SEXP nSimsSEXP, SEXP PETrueSEXP, SEXP PTTrueSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -32,7 +32,7 @@ END_RCPP
 }
 // AssignEffTox
 int AssignEffTox(arma::vec YE, arma::vec YT, arma::vec Doses, arma::vec Dose, arma::vec DosesTried, arma::vec Hypermeans, arma::vec Hypervars, arma::vec Contour, arma::vec PiLim, arma::vec ProbLim, int B);
-RcppExport SEXP Phase123_AssignEffTox(SEXP YESEXP, SEXP YTSEXP, SEXP DosesSEXP, SEXP DoseSEXP, SEXP DosesTriedSEXP, SEXP HypermeansSEXP, SEXP HypervarsSEXP, SEXP ContourSEXP, SEXP PiLimSEXP, SEXP ProbLimSEXP, SEXP BSEXP) {
+RcppExport SEXP _Phase123_AssignEffTox(SEXP YESEXP, SEXP YTSEXP, SEXP DosesSEXP, SEXP DoseSEXP, SEXP DosesTriedSEXP, SEXP HypermeansSEXP, SEXP HypervarsSEXP, SEXP ContourSEXP, SEXP PiLimSEXP, SEXP ProbLimSEXP, SEXP BSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -53,7 +53,7 @@ END_RCPP
 }
 // RandomEffTox
 int RandomEffTox(arma::vec YE, arma::vec YT, arma::vec Doses, arma::vec Dose, arma::vec DosesTried, arma::vec Hypermeans, arma::vec Hypervars, arma::vec Contour, arma::vec PiLim, arma::vec ProbLim, int B);
-RcppExport SEXP Phase123_RandomEffTox(SEXP YESEXP, SEXP YTSEXP, SEXP DosesSEXP, SEXP DoseSEXP, SEXP DosesTriedSEXP, SEXP HypermeansSEXP, SEXP HypervarsSEXP, SEXP ContourSEXP, SEXP PiLimSEXP, SEXP ProbLimSEXP, SEXP BSEXP) {
+RcppExport SEXP _Phase123_RandomEffTox(SEXP YESEXP, SEXP YTSEXP, SEXP DosesSEXP, SEXP DoseSEXP, SEXP DosesTriedSEXP, SEXP HypermeansSEXP, SEXP HypervarsSEXP, SEXP ContourSEXP, SEXP PiLimSEXP, SEXP ProbLimSEXP, SEXP BSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -74,7 +74,7 @@ END_RCPP
 }
 // PieceMCMC
 List PieceMCMC(arma::vec Y, arma::vec I, arma::vec YE, arma::vec YT, arma::vec Doses, arma::vec Dose, int B, arma::mat prob, arma::mat MaxObs);
-RcppExport SEXP Phase123_PieceMCMC(SEXP YSEXP, SEXP ISEXP, SEXP YESEXP, SEXP YTSEXP, SEXP DosesSEXP, SEXP DoseSEXP, SEXP BSEXP, SEXP probSEXP, SEXP MaxObsSEXP) {
+RcppExport SEXP _Phase123_PieceMCMC(SEXP YSEXP, SEXP ISEXP, SEXP YESEXP, SEXP YTSEXP, SEXP DosesSEXP, SEXP DoseSEXP, SEXP BSEXP, SEXP probSEXP, SEXP MaxObsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -93,7 +93,7 @@ END_RCPP
 }
 // EFFTOX
 arma::mat EFFTOX(arma::vec YE, arma::vec YT, arma::vec Doses, arma::vec Dose, arma::vec Hypermeans, arma::vec Hypervars, int B);
-RcppExport SEXP Phase123_EFFTOX(SEXP YESEXP, SEXP YTSEXP, SEXP DosesSEXP, SEXP DoseSEXP, SEXP HypermeansSEXP, SEXP HypervarsSEXP, SEXP BSEXP) {
+RcppExport SEXP _Phase123_EFFTOX(SEXP YESEXP, SEXP YTSEXP, SEXP DosesSEXP, SEXP DoseSEXP, SEXP HypermeansSEXP, SEXP HypervarsSEXP, SEXP BSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -110,11 +110,11 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"Phase123_RunAdaptiveEffToxTrial", (DL_FUNC) &Phase123_RunAdaptiveEffToxTrial, 14},
-    {"Phase123_AssignEffTox", (DL_FUNC) &Phase123_AssignEffTox, 11},
-    {"Phase123_RandomEffTox", (DL_FUNC) &Phase123_RandomEffTox, 11},
-    {"Phase123_PieceMCMC", (DL_FUNC) &Phase123_PieceMCMC, 9},
-    {"Phase123_EFFTOX", (DL_FUNC) &Phase123_EFFTOX, 7},
+    {"_Phase123_RunAdaptiveEffToxTrial", (DL_FUNC) &_Phase123_RunAdaptiveEffToxTrial, 14},
+    {"_Phase123_AssignEffTox", (DL_FUNC) &_Phase123_AssignEffTox, 11},
+    {"_Phase123_RandomEffTox", (DL_FUNC) &_Phase123_RandomEffTox, 11},
+    {"_Phase123_PieceMCMC", (DL_FUNC) &_Phase123_PieceMCMC, 9},
+    {"_Phase123_EFFTOX", (DL_FUNC) &_Phase123_EFFTOX, 7},
     {NULL, NULL, 0}
 };
 

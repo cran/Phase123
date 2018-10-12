@@ -7,7 +7,7 @@
 #' @param betaC Linear term for efficacy, toxicity and beta_0 for the control groupar term for efficacy, toxicity and beta_0 for the control group.
 #' @importFrom  stats sd
 #' @references
-#' [1] Chapple and Thall (2018). A Hybrid Phase 12/3 Clinical Trial Design Allowing Dose-Re-Optimization in Phase 3 Biometrics. Under Review.
+#' [1] Chapple and Thall (2018).A Hybrid Phase I-II/III Clinical Trial Design Allowing Dose Re-Optimization in Phase III. Biometrics. In Press,
 #' @examples
 #'###Family of Distributions
 #'Family="Gamma"

@@ -459,7 +459,7 @@ if(OptDose==OptDose3){
       if(INDSTOP==1){
 
 
-          trial.time = quantile((ACC+Times), NLook[k]/Nmax)
+          trial.time = quantile((ACC+Times), NLook[k]/Nmax,na.rm=TRUE)
 
 
 
@@ -477,7 +477,7 @@ if(OptDose==OptDose3){
 
 
 
-        trial.time = quantile((ACC+Times), NLook[k]/Nmax)
+        trial.time = quantile((ACC+Times), NLook[k]/Nmax,na.rm=TRUE)
 
 
 
@@ -672,7 +672,7 @@ if(OptDose==OptDose3){
 
 
 
-          trial.time = quantile(ACC+TimesREG,NLook[k]/Nmax)
+          trial.time = quantile(ACC+TimesREG,NLook[k]/Nmax,na.rm=TRUE)
 
 
           ##Calculate the numnber of toxicities in the trial thusfar
@@ -690,7 +690,7 @@ if(OptDose==OptDose3){
 
 
 
-        trial.reg = quantile((ACC+TimesREG),NLook[k]/Nmax)
+        trial.reg = quantile((ACC+TimesREG),NLook[k]/Nmax,na.rm=TRUE)
 
 
 
@@ -856,7 +856,7 @@ if(OptDose==OptDose3){
 
 
 
-          trial.time = quantile((ACC+Times),NLook[k]/Nmax)
+          trial.time = quantile((ACC+Times),NLook[k]/Nmax,na.rm=TRUE)
 
 
 
@@ -876,7 +876,7 @@ if(OptDose==OptDose3){
 
     }else{
 
-        trial.time = quantile((ACC+Times),NLook[k]/Nmax)
+        trial.time = quantile((ACC+Times),NLook[k]/Nmax,na.rm=TRUE)
 
 
 

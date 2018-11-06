@@ -164,8 +164,8 @@ SimPhase3=function(Dose,Phase12,PE,PT,Hypermeans,Hypervars,betaA,ProbC,betaC,Fam
 
     if(Family=="Gamma"){
       for(b in 1:Nmax){
-        YECont[b]=rbinom(1,1,ProbC[1])
-        YTCont[b]=rbinom(1,1,ProbC[2])
+        YE=rbinom(1,1,ProbC[1])
+        YT=rbinom(1,1,ProbC[2])
 
 
     TimeCont[b]=rgamma(1,alpha,1/exp(YE*betaC[1]+YT*betaC[2]+betaC[3]))
@@ -175,8 +175,8 @@ SimPhase3=function(Dose,Phase12,PE,PT,Hypermeans,Hypervars,betaA,ProbC,betaC,Fam
 
   if(Family=="Exponential"){
     for(b in 1:Nmax){
-      YECont[b]=rbinom(1,1,ProbC[1])
-      YTCont[b]=rbinom(1,1,ProbC[2])
+      YE=rbinom(1,1,ProbC[1])
+      YT=rbinom(1,1,ProbC[2])
 
 
       TimeCont[b]=rgamma(1,1,1/exp(YE*betaC[1]+YT*betaC[2]+betaC[3]))
@@ -187,8 +187,8 @@ SimPhase3=function(Dose,Phase12,PE,PT,Hypermeans,Hypervars,betaA,ProbC,betaC,Fam
 
   if(Family=="Weibull"){
     for(b in 1:Nmax){
-      YECont[b]=rbinom(1,1,ProbC[1])
-      YTCont[b]=rbinom(1,1,ProbC[2])
+      YE=rbinom(1,1,ProbC[1])
+      YT=rbinom(1,1,ProbC[2])
 
 
       TimeCont[b]=rweibull(1,alpha,exp(YE*betaC[1]+YT*betaC[2]+betaC[3]))
@@ -199,8 +199,8 @@ SimPhase3=function(Dose,Phase12,PE,PT,Hypermeans,Hypervars,betaA,ProbC,betaC,Fam
 
   if(Family=="Lognormal"){
     for(b in 1:Nmax){
-      YECont[b]=rbinom(1,1,ProbC[1])
-      YTCont[b]=rbinom(1,1,ProbC[2])
+      YE=rbinom(1,1,ProbC[1])
+      YT=rbinom(1,1,ProbC[2])
 
 
       TimeCont[b]=rlnorm(1,YE*betaC[1]+YT*betaC[2]+betaC[3],alpha)

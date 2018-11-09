@@ -113,7 +113,7 @@ B=2000
 
   for(h in 1:nSims){
 
-    if(h%%10==0){
+    if(h%%100==0){
       cat(h, "Simulations Finished
 
           ")

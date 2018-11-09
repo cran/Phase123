@@ -144,10 +144,14 @@ if(length(ALL)>1){
     cat("Type I error
 ")
     cat("Conventional Design ")
-    print(mean((DECISIONREG==1 | DECISIONREG==(-1)) & StartingDose==Best, na.rm=TRUE)+mean(DECISIONREG==1 & StartingDose !=Best),na.rm=TRUE)
+    print(mean((DECISIONREG==1 | DECISIONREG==-1 )  & StartingDose==Best, na.rm=TRUE) + mean(DECISIONREG==1 & StartingDose !=Best,na.rm=TRUE))
     cat("Phase123 Design ")
-    print( mean((DECISION==1 | DECISION==(-1)) & CHOSENDOSE==Best , na.rm=TRUE)+mean(DECISION==1 & CHOSENDOSE !=Best,na.rm=TRUE))
-  }
+    print( mean( DECISION==1  & (CHOSENDOSE==Best & StartingDose !=Best) , na.rm=TRUE)+
+   mean((DECISION==1 | DECISION==-1)  & (StartingDose==Best & CHOSENDOSE==Best), na.rm=TRUE)+
+    mean(DECISION==1 & CHOSENDOSE !=Best,na.rm=TRUE))
+
+
+    }
 
 }
 

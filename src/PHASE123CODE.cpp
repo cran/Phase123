@@ -381,7 +381,7 @@ int GetDose(arma::vec DESIRE){
 
 
 double GetSd(arma::vec X){
-  int Mean = sum(X)/X.n_rows;
+  double Mean = sum(X)/X.n_rows;
 
   return(pow(sum(pow(X-Mean,2))/(X.n_rows-1),.5));
 
